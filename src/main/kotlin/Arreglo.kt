@@ -1,7 +1,7 @@
 import java.io.Serializable
 import kotlin.math.pow
 
-class Estructura(
+class Arreglo(
     private var nDigitos: Int,
     private var n: Int //size
 ): Serializable {
@@ -38,7 +38,7 @@ class Estructura(
     override fun toString(): String {
         var str = ""
         for(i in 0..<v.size) {
-            str += "\t   dir: ${i+1} value: ${"%0${nDigitos}d".format(v[i])}\n"
+            str += "\t  posición: ${i+1}  clave: ${"%0${nDigitos}d".format(v[i])}\n"
         }
         return str
     }

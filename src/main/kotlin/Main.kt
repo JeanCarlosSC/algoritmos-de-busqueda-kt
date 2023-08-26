@@ -1,10 +1,11 @@
-import sRAD_kt.logic.extention.Extension.isInt
+import lib.sRAD_kt.logic.extention.Extension.isInt
 import java.io.*
 import kotlin.system.exitProcess
 
 
-var estructura: Estructura? = null
+var arreglo: Arreglo? = null
 
+// Spanish symbols á é í ó ú ñ
 fun main() {
     println("\nBienvenido al sistema de almacenamiento SJ")
     val f = File("data.txt")
@@ -17,25 +18,25 @@ fun main() {
 fun gotoMenu() {
     println("\n- - - - Menú principal - - - -")
     println("Por favor ingrese el número de la acción que desea ejecutar")
-    val hayEstructura = hayEstructura()
-    if(hayEstructura) {
+    val hayArreglo = hayArreglo()
+    if(hayArreglo) {
         println("1. Ingresar claves\n" +
                 "2. Ver claves\n" +
                 "3. Buscar claves\n" +
                 "4. Modificar claves\n" +
                 "5. Eliminar claves\n" +
-                "6. Modificar estructura\n" +
-                "7. Eliminar estructura\n" +
+                "6. Modificar arreglo\n" +
+                "7. Eliminar arreglo\n" +
                 "8. Terminar ejecución")
     }
     else {
-        println("1. Crear estructura\n" +
+        println("1. Crear arreglo\n" +
                 "2. Terminar ejecución")
     }
-    if(!hayEstructura()){
+    if(!hayArreglo()){
         val option = readIntFromUntil(1,2)
         when(option) {
-            1 -> crearEstructura()
+            1 -> crearArreglo()
             else -> terminarEjecucion()
         }
     }
@@ -54,32 +55,32 @@ fun gotoMenu() {
     }
 }
 
-fun crearEstructura() {
-    println("\n- - - - Creando estructura - - - -")
+fun crearArreglo() {
+    println("\n- - - - Creando arreglo - - - -")
 
     print("Ingrese la cantidad de dígitos de cada clave: ")
-    val nDigitos: Int = readIntFrom(1)
+    val nDigits: Int = readIntFrom(1)
 
-    print("Ingrese el tamaño/capacidad de la estructura: ")
+    print("Ingrese el tamaño o la capacidad máxima del arreglo: ")
     val size: Int = readIntFrom(1)
 
-    estructura = Estructura(nDigitos, size)
+    arreglo = Arreglo(nDigits, size)
     println("Estructura creada satisfactoriamente")
     gotoMenu()
 }
 
 fun ingresarClaves() {
-    println("- - - - Ingreso de claves - - - -")
-    var entrada: String?
+    println("- - - - Ingresando claves - - - -")
+    var input: String?
     do {
-        print("Ingrese la clave deseada o x para ir al menú principal: ")
-        entrada = readlnOrNull()
-        if (entrada == "x") {
+        print("Ingrese la clave que desea insertar en el arreglo o x para ir al menú principal: ")
+        input = readlnOrNull()
+        if (input == "x") {
             break
         }
-        else if (entrada != null && isInt(entrada) && entrada.toInt()>=0
-            && entrada.toInt()<=estructura!!.getMaxValue()) {
-            if(!estructura!!.insertar(entrada.toInt())){
+        else if (input != null && isInt(input) && input.toInt()>=0
+            && input.toInt()<=arreglo!!.getMaxValue()) {
+            if(!arreglo!!.insertar(input.toInt())){
                 println("¿Desea eliminar claves?")
                 println("1. Sí\n" +
                         "2. No")
@@ -90,7 +91,7 @@ fun ingresarClaves() {
             }
         }
         else {
-            println("Por favor ingrese una clave válida para la estructura de datos creada")
+            println("Por favor ingrese una clave válida para el arreglo definido")
         }
     } while (true)
     guardar()
@@ -99,22 +100,22 @@ fun ingresarClaves() {
 
 fun verClaves() {
     println("\n- - - - Mostrando claves - - - -")
-    println(estructura!!.toString())
+    println(arreglo!!.toString())
     gotoMenu()
 }
 
 fun buscarClaves() {
-    println("- - - - Búsqueda de claves - - - -")
-    println("Ingrese el número del algoritmo de búsqueda que desea usar")
+    println("- - - - Buscando claves - - - -")
+    println("Ingrese el número que corresponda al algoritmo de búsqueda que desea usar")
     println("1. Búsqueda secuencial")
     val option: Int
     do {
-        val entrada = readIntFrom(0)
-        if(entrada>1) {
+        val input = readIntFrom(0)
+        if(input>1) {
             println("Por favor ingrese una de las opciones")
         }
         else {
-            option = entrada
+            option = input
             break
         }
     } while (true)
@@ -125,8 +126,8 @@ fun buscarClaves() {
 
 fun busquedaSecuencial() {
     print("Ingrese la clave que desea buscar: ")
-    val clave = readIntFromUntil(0, estructura!!.getMaxValue())
-    estructura!!.buscarSecuencialmente(clave)
+    val clave = readIntFromUntil(0, arreglo!!.getMaxValue())
+    arreglo!!.buscarSecuencialmente(clave)
     println("\n¿Desea buscar otra clave con el algoritmo secuencial?")
     println("1. Sí\n" +
             "2. No")
@@ -152,16 +153,26 @@ fun modificarEstructura() {
 }
 
 fun eliminarEstructura() {
-    println("Eliminando estructura")
+    println("- - - - Eliminando arreglo - - - -")
+    arreglo = null
+
+    val data = File("data.txt")
+    if (data.delete()) {
+        println("El arreglo se ha borrado exitosamente")
+    }
+    else {
+        println("No se ha podido borrar el arreglo")
+    }
+    gotoMenu()
 }
 
 fun terminarEjecucion() {
-    println("Ejecución terminada exitosamente")
+    println("Ejecucion terminada exitosamente")
     exitProcess(0)
 }
 
-fun hayEstructura(): Boolean {
-    return estructura != null
+fun hayArreglo(): Boolean {
+    return arreglo != null
 }
 
 fun readIntFrom(a: Int): Int {
@@ -197,7 +208,7 @@ fun readIntFromUntil(a: Int, b: Int): Int {
 fun guardar() {
     val fileOutputStream = FileOutputStream("data.txt")
     val objectOutputStream = ObjectOutputStream(fileOutputStream)
-    objectOutputStream.writeObject(estructura)
+    objectOutputStream.writeObject(arreglo)
     objectOutputStream.flush()
     objectOutputStream.close()
 }
@@ -205,6 +216,6 @@ fun guardar() {
 fun cargar() {
     val fileInputStream = FileInputStream("data.txt")
     val objectInputStream = ObjectInputStream(fileInputStream)
-    estructura = objectInputStream.readObject() as Estructura
+    arreglo = objectInputStream.readObject() as Arreglo
     objectInputStream.close()
 }
