@@ -11,6 +11,18 @@ class Arreglo(
         return 10.0.pow(nDigitos).toInt()-1
     }
 
+    fun getSize(): Int {
+        return size
+    }
+
+    fun setSize(size: Int) {
+        this.size = size
+    }
+
+    fun setNDigits(nDigitos: Int) {
+        this.nDigitos = nDigitos
+    }
+
     fun buscarSecuencialmente(x: Int) {
         var i=0
         while ((i<v.size) && (v[i] != x)) {
@@ -51,7 +63,7 @@ class Arreglo(
             }
         }
         if(ban) {
-            println("La información está en la posición $cen")
+            println("La información está en la posición ${cen+1}")
         }
         else {
             println("La información no se encuentra en el arreglo")
@@ -72,7 +84,7 @@ class Arreglo(
     override fun toString(): String {
         var str = ""
         for(i in 0..<v.size) {
-            str += "\t  posición ${i+1}, clave ${"%0${nDigitos}d".format(v[i])}\n"
+            str += "\tposición ${i+1}, clave ${"%0${nDigitos}d".format(v[i])}\n"
         }
         return str
     }

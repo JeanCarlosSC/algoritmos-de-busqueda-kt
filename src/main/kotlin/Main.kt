@@ -1,5 +1,6 @@
 import sRAD_kt.logic.extention.Extension.isInt
 import java.io.*
+import kotlin.math.pow
 import kotlin.system.exitProcess
 
 
@@ -49,7 +50,7 @@ fun gotoMenu() {
             3 -> buscarClaves()
             4 -> modificarClaves()
             5 -> eliminarClaves()
-            6 -> modificarEstructura()
+            6 -> modificarArreglo()
             7 -> eliminarEstructura()
             else -> terminarEjecucion()
         }
@@ -66,7 +67,7 @@ fun crearArreglo() {
     val size: Int = readIntFrom(1)
 
     arreglo = Arreglo(nDigits, size)
-    println("Estructura creada satisfactoriamente")
+    println("Arreglo creado satisfactoriamente")
     gotoMenu()
 }
 
@@ -108,11 +109,12 @@ fun verClaves() {
 fun buscarClaves() {
     println("- - - - Buscando claves - - - -")
     println("Ingrese el número que corresponda al algoritmo de búsqueda que desea usar")
-    println("1. Búsqueda secuencial")
+    println("1. Búsqueda secuencial\n" +
+            "2. Búsqueda binaria")
     val option: Int
     do {
         val input = readIntFrom(0)
-        if(input>1) {
+        if(input>2) {
             println("Por favor ingrese una de las opciones")
         }
         else {
@@ -158,15 +160,39 @@ fun busquedaBinaria() {
     }
 }
 fun modificarClaves() {
-    println("Modificando claves")
+    println("- - - - Modificando claves - - - -")
+    println("Digite posición de la clave en el arreglo (se puede obtener al ver claves)")
+    println("Digite nuevo valor")
+    println("Modificación realizada satisfactoriamente")
 }
 
 fun eliminarClaves() {
     println("Eliminando claves")
 }
 
-fun modificarEstructura() {
-    println("Modificando estructura")
+fun modificarArreglo() {
+    println("- - - - Modificando arreglo - - - -")
+    println("Ingrese la cantidad de dígitos de cada clave")
+    val nDigits: Int = readIntFrom(1)
+    if(arreglo!!.getMaxValue()>10.0.pow(nDigits).toInt()-1) {
+        println("El sistema no permite reducir la cantidad de dígitos de la información")
+    }
+    else {
+        arreglo!!.setNDigits(nDigits)
+        println("Se ha modificado el arreglo satisfactoriamente")
+    }
+
+    print("Ingrese el tamaño o la capacidad máxima del arreglo: ")
+    val size: Int = readIntFrom(1)
+    if(arreglo!!.getSize()>size) {
+        println("El sistema no permite reducir el tamaño del arreglo")
+    }
+    else {
+        arreglo!!.setSize(size)
+        println("Se ha modificado el arreglo satisfactoriamente")
+    }
+
+    gotoMenu()
 }
 
 fun eliminarEstructura() {
