@@ -3,7 +3,7 @@ import kotlin.math.pow
 
 class Arreglo(
     private var nDigitos: Int,
-    private var n: Int //size
+    private var size: Int //size
 ): Serializable {
     private val v = mutableListOf<Int>() // claves
 
@@ -24,8 +24,42 @@ class Arreglo(
         }
     }
 
+    fun buscarBinariamente(x: Int) {
+        // requisitos
+        v.sort()
+
+        // definición de variables
+        val n = v.size
+        var izq: Int = 0
+        var der: Int = n-1
+        var cen: Int = -1
+        var ban: Boolean = false
+
+        // algoritmo
+        while((izq <= der) && !ban) {
+            cen = (der/2.0 + izq/2.0).toInt()
+            if(x == v[cen]) {
+                ban = true
+            }
+            else {
+                if(x>v[cen]) {
+                    izq = cen + 1
+                }
+                else {
+                    der = cen - 1
+                }
+            }
+        }
+        if(ban) {
+            println("La información está en la posición $cen")
+        }
+        else {
+            println("La información no se encuentra en el arreglo")
+        }
+    }
+
     fun insertar(x: Int): Boolean {
-        return if (v.size >= n) {
+        return if (v.size >= size) {
             println("La clave $x no puede ser insertada porque la estructura de datos esta llena")
             false
         } else {
@@ -38,7 +72,7 @@ class Arreglo(
     override fun toString(): String {
         var str = ""
         for(i in 0..<v.size) {
-            str += "\t  posición: ${i+1}  clave: ${"%0${nDigitos}d".format(v[i])}\n"
+            str += "\t  posición ${i+1}, clave ${"%0${nDigitos}d".format(v[i])}\n"
         }
         return str
     }

@@ -1,11 +1,12 @@
-import lib.sRAD_kt.logic.extention.Extension.isInt
+import sRAD_kt.logic.extention.Extension.isInt
 import java.io.*
 import kotlin.system.exitProcess
 
 
 var arreglo: Arreglo? = null
 
-// Spanish symbols á é í ó ú ñ
+// probar búsqueda binaria
+
 fun main() {
     println("\nBienvenido al sistema de almacenamiento SJ")
     val f = File("data.txt")
@@ -121,6 +122,7 @@ fun buscarClaves() {
     } while (true)
     when(option) {
         1 -> busquedaSecuencial()
+        else -> busquedaBinaria()
     }
 }
 
@@ -138,7 +140,22 @@ fun busquedaSecuencial() {
     else {
         gotoMenu()
     }
+}
 
+fun busquedaBinaria() {
+    print("Ingrese la clave que desea buscar: ")
+    val clave = readIntFromUntil(0, arreglo!!.getMaxValue())
+    arreglo!!.buscarBinariamente(clave)
+    println("\n¿Desea buscar otra clave con el algoritmo binario?")
+    println("1. Sí\n" +
+            "2. No")
+    val option = readIntFromUntil(1, 2)
+    if (option == 1){
+        busquedaBinaria()
+    }
+    else {
+        gotoMenu()
+    }
 }
 fun modificarClaves() {
     println("Modificando claves")
